@@ -65,3 +65,6 @@ os.system('node parseOsmInterpolation.js')
 
 print "Import addresses..."
 os.system('php loadOsmFile.php')
+
+print "Remove data file..."
+os.system("rm data/berlin-latest.osm.pbf")
