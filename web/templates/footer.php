@@ -1,6 +1,7 @@
 		</div>
 		<div class="container">
-			<div style="font-size: 0.8em; text-align: center; line-height: 1.8em;">
+			<div class="footer">
+				BerlinAdd - Adressbestand der offiziellen Geodaten in OpenStreetMap<br>
 				Aktualisiert: 
 					<?php echo date('d.m.Y H:i', $model->lastUpdate()); ?><br>
 				Quelle: <a href="http://fbinter.stadt-berlin.de/fb/berlin/service.jsp?id=a_hauskoordinaten@senstadt&type=FEED">Geoportal Berlin / Hauskoordinaten</a><br>
@@ -21,7 +22,7 @@ ob_end_clean();
 if(strlen($title) != 0) {
 	$title .= ' - ';
 }
-$title .= 'berlinadd';
+$title .= 'BerlinAdd';
 $buffer=str_replace('%TITLE%', $title, $buffer);
 echo $buffer;
 ?>

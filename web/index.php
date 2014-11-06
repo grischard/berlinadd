@@ -16,7 +16,7 @@ if(isset($_GET['nid'])) {
 		<h2>Fehler</h2>
 	<?php } else { ?>
 		<?php $title = $number['street_name'] . ' ' . $number['number'] . ' in ' . $number['postcode'] . ' ' . $number['ortsteil_name'] . '/' . $number['bezirk_name']; ?>
-		<table style="width: 350px; margin: 0 auto;">
+		<table class="address">
 			<tr>
 				<td>Bezirk:</td>
 				<td>
@@ -52,7 +52,7 @@ if(isset($_GET['nid'])) {
 		</table>
 		
 		<br>
-		<div id="map" style="width: 690px; height: 500px; margin: 0 -70px; margin-bottom: -15px;"></div>
+		<div id="map" class="map"></div>
 		<script>
 			var lat = <?php echo $number['lat']; ?>;
 			var lon = <?php echo $number['lon']; ?>;
@@ -81,7 +81,7 @@ if(isset($_GET['nid'])) {
 		<h2>Hausnummern in <?php echo $street; ?></h2>
 		<h2>In PLZ <a href="?pid=<?php echo $pid; ?>"><?php echo $postcode; ?></a></h2>
 	
-		<table style="width: 370px; margin: 0 auto;">
+		<table class="streets">
 		<?php
 		//get numbers
 		$numbers = $model->getNumbersForPidAndSid($pid, $sid);
@@ -92,7 +92,7 @@ if(isset($_GET['nid'])) {
 						<?php echo $number['number']; ?>
 					</a>
 				</td>
-				<td style="width: 300px;">
+				<td class="progress">
 					<?php showStatus($number['status']); ?>
 				</td>
 			</tr>
@@ -114,9 +114,9 @@ if(isset($_GET['nid'])) {
 	} else { ?>
 		<?php $title = $street . ' in ' . $ortsteil; ?>
 		<h2>Hausnummern in <?php echo $street; ?></h2>
-		<h2>In Ortsteil <a href="?oid=<?php echo $oid; ?>"><?php echo $ortsteil; ?></h2>
+		<h2>In Ortsteil <a href="?oid=<?php echo $oid; ?>"><?php echo $ortsteil; ?></a></h2>
 	
-		<table style="width: 370px; margin: 0 auto;">
+		<table class="streets">
 		<?php
 		//get numbers
 		$numbers = $model->getNumbersForOidAndSid($oid, $sid);
@@ -127,7 +127,7 @@ if(isset($_GET['nid'])) {
 						<?php echo $number['number']; ?>
 					</a>
 				</td>
-				<td style="width: 300px;">
+				<td class="progress">
 					<?php showStatus($number['status']); ?>
 				</td>
 			</tr>
@@ -156,7 +156,7 @@ if(isset($_GET['nid'])) {
 				<td>
 					<a href="?oid=<?php echo $ortsteil['oid']; ?>"><?php echo $ortsteil['name']; ?></a>
 				</td>
-				<td style="width: 300px;"><?php showProgress($ortsteil['in_osm_1'], $ortsteil['in_osm_2'], $ortsteil['num']); ?></td>
+				<td class="progress"><?php showProgress($ortsteil['in_osm_1'], $ortsteil['in_osm_2'], $ortsteil['num']); ?></td>
 			</tr>
 		<?php
 		}
@@ -182,7 +182,7 @@ if(isset($_GET['nid'])) {
 				<td>
 					<a href="?oid=<?php echo $oid; ?>&sid=<?php echo $street['sid']; ?>"><?php echo $street['name']; ?></a>
 				</td>
-				<td style="width: 300px;"><?php showProgress($street['in_osm_1'], $street['in_osm_2'], $street['num']); ?></td>
+				<td class="progress"><?php showProgress($street['in_osm_1'], $street['in_osm_2'], $street['num']); ?></td>
 			</tr>
 		<?php
 		}
@@ -208,7 +208,7 @@ if(isset($_GET['nid'])) {
 				<td>
 					<a href="?pid=<?php echo $pid; ?>&sid=<?php echo $street['sid']; ?>"><?php echo $street['name']; ?></a>
 				</td>
-				<td style="width: 300px;"><?php showProgress($street['in_osm_1'], $street['in_osm_2'], $street['num']); ?></td>
+				<td class="progress"><?php showProgress($street['in_osm_1'], $street['in_osm_2'], $street['num']); ?></td>
 			</tr>
 		<?php
 		}
@@ -237,7 +237,7 @@ foreach($bezirke as $bezirk) { ?>
 		<td>
 			<a href="?bid=<?php echo $bezirk['bid']; ?>"><?php echo $bezirk['name']; ?></a>
 		</td>
-		<td style="width: 300px;"><?php showProgress($bezirk['in_osm_1'], $bezirk['in_osm_2'], $bezirk['num']); ?></td>
+		<td class="progress"><?php showProgress($bezirk['in_osm_1'], $bezirk['in_osm_2'], $bezirk['num']); ?></td>
 	</tr>
 <?php
 }
@@ -255,7 +255,7 @@ foreach($postcodes as $postcode) { ?>
 		<td>
 			<a href="?pid=<?php echo $postcode['pid']; ?>"><?php echo $postcode['name']; ?></a>
 		</td>
-		<td style="width: 300px;"><?php showProgress($postcode['in_osm_1'], $postcode['in_osm_2'], $postcode['num']); ?></td>
+		<td class="progress"><?php showProgress($postcode['in_osm_1'], $postcode['in_osm_2'], $postcode['num']); ?></td>
 	</tr>
 <?php
 }

@@ -14,7 +14,7 @@ function showStatus($status) {
 			break;
 	}
 ?>
-	<div style="border-radius: 5px; width: 100%; min-height: 16px; padding: 2px; font-size: 0.8em; text-align: center; background-color: <?php echo $color; ?>">
+	<div class="status bg-<?php echo $color; ?>">
 	<?php if(isset($status['warning'])) { ?>
 		<?php echo $status['warning']; ?>
 	<?php } ?>
