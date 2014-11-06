@@ -13,8 +13,8 @@ $model = new Model();
 		<title>%TITLE%</title>
 		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 		<link rel="stylesheet" href="styles.css" />
-		<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
-		<script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>
+		<link rel="stylesheet" href="leaflet-0.7.3/leaflet.css" />
+		<script src="leaflet-0.7.3/leaflet.js"></script>
 	</head>
 	<body>
 		<div class="container">
