@@ -52,7 +52,7 @@ if(isset($_GET['nid'])) {
 		</table>
 		
 		<br>
-		<div id="map" style="width: 500px; height: 500px; margin: 0 auto;"></div>
+		<div id="map" style="width: 690px; height: 500px; margin: 0 -70px; margin-bottom: -15px;"></div>
 		<script>
 			var lat = <?php echo $number['lat']; ?>;
 			var lon = <?php echo $number['lon']; ?>;
@@ -79,7 +79,7 @@ if(isset($_GET['nid'])) {
 	} else { ?>
 		<?php $title = $street . ' in ' . $postcode; ?>
 		<h2>Hausnummern in <?php echo $street; ?></h2>
-		<h3>In PLZ <?php echo $postcode; ?></h3>
+		<h2>In PLZ <a href="?pid=<?php echo $pid; ?>"><?php echo $postcode; ?></a></h2>
 	
 		<table style="width: 370px; margin: 0 auto;">
 		<?php
@@ -114,7 +114,7 @@ if(isset($_GET['nid'])) {
 	} else { ?>
 		<?php $title = $street . ' in ' . $ortsteil; ?>
 		<h2>Hausnummern in <?php echo $street; ?></h2>
-		<h3>In Ortsteil <?php echo $ortsteil; ?></h3>
+		<h2>In Ortsteil <a href="?oid=<?php echo $oid; ?>"><?php echo $ortsteil; ?></h2>
 	
 		<table style="width: 370px; margin: 0 auto;">
 		<?php

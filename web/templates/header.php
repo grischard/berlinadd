@@ -17,20 +17,30 @@ $model = new Model();
 		* {
 			font-family: verdana, arial;
 		}
-		h1,h2,h3 {
+		body {
+			background-color: #AAA;
+			margin: 0;
+		}
+		div.container {
+			margin: 5px auto;
+			width: 550px; 
+			background-color: #EEE; 
+			padding: 15px 70px;
+			box-shadow: inset 0 0 10px #CCC;
+		}
+		h1,h2 {
 			text-align: center;
+			text-transform: uppercase;
 		}
 		h1 {
 			font-size: 1.4em;
-			margin: 10px;
+			margin: 0;
+			color: #AAA;
 		}
 		h2 {
-			font-size: 1.2em;
+			font-size: 1em;
 			margin: 5px;
-		}
-		h3 {
-			font-size: 0.9em;
-			margin: 5px;
+			color: #444;
 		}
 		a {
 			color: #000;
@@ -46,9 +56,9 @@ $model = new Model();
 		<script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>
 	</head>
 	<body>
-		<div style="margin: 0 auto; width: 550px; background-color: #eee; padding: 20px 70px; padding-top: 5px;">
-			<a href="/">
-				<h1>OSM Berlin Address Progress</h1>
+		<div class="container">
+			<a href="/" style="text-decoration: none;">
+				<h1 style="color: #AAA;">BerlinAdd</h1>
 			</a>
 			<?php if($model->isUpdating()) { ?>
 				<div style="color: red; text-align: center; font-size: 0.8em;">

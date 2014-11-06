@@ -1,4 +1,5 @@
-			<hr>
+		</div>
+		<div class="container">
 			<div style="font-size: 0.8em; text-align: center; line-height: 1.8em;">
 				Aktualisiert: 
 					<?php echo date('d.m.Y H:i', $model->lastUpdate()); ?><br>
