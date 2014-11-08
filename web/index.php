@@ -53,11 +53,11 @@ if(isset($_GET['nid'])) {
 		<br>
 		<div id="map" class="map"></div>
 		<script>
-			$(document).ready(function() {
+			pagedidload = function() {
 				var lat = <?php echo $number['lat']; ?>;
 				var lon = <?php echo $number['lon']; ?>;
 				showMap(lat, lon);
-			});
+			};
 		</script>
 	<?php }
 } elseif(isset($_GET['pid']) && isset($_GET['sid'])) {

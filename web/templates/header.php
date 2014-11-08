@@ -13,7 +13,7 @@ $model = new Model();
 		<title>%TITLE%</title>
 		<link rel="shortcut icon" href="favicon.ico?1" type="image/x-icon" />
 		<link rel="stylesheet" href="all.min.css" />
-		<script src="all.min.js"></script>
+		<script>var pagedidload = function(){}</script>
 	</head>
 	<body>
 		<div class="container">

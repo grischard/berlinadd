@@ -14,6 +14,12 @@
 		<br><br>
 	</body>
 </html>
+<script src="all.min.js"></script>
+<script>
+$(document).ready(function() {
+	pagedidload();
+});
+</script>
 
 <?php
 //show output
