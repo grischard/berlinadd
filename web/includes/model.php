@@ -3,8 +3,113 @@ class Model {
 	private $db;
 	
 	function __construct() {
+		//connect to mysql
 		$this->db = new mysqli('127.0.0.1', 'root', 'root', 'berlinadd');
 		$this->db->query("SET NAMES 'utf8'");
+	}
+	
+	//get search results
+	function searchFor($str) {
+		//connect to sphinx
+		$sphinx = new mysqli('127.0.0.1', '', '', '', 9306);
+		$sphinx->query("SET NAMES 'utf8'");
+		
+		//split string
+		$str = $this->db->real_escape_string($str);
+		$words = explode(' ', $str);
+		$newWords = array();
+		foreach($words as $word) {
+			if(strlen($word)) {
+				$newWords[] = '' . $word . '*';
+			}
+		}
+		$str = join(' ', $newWords);
+		
+		//get sphinx ids
+		$sql = 'SELECT *
+				FROM berlinadd
+				WHERE MATCH(\'@(term) ' . $str . '\')
+				ORDER BY type ASC, number ASC, term ASC
+				LIMIT 18';
+		$res = $sphinx->query($sql);
+		$ids = array();
+		while($row = $res->fetch_assoc()) {
+			$ids[] = $row['id'];
+		}
+		if(!count($ids)) {
+			return array();
+		}
+		
+		//get item from search table
+		$results = array();
+		$ids_str = join(',', $ids);
+		$sql = 'SELECT seid, term, type, objid, objid2
+				FROM search
+				WHERE seid IN (' . $ids_str . ')';
+		$res = $this->db->query($sql);
+		$items = array();
+		while($row = $res->fetch_assoc()) {
+			$items[$row['seid']] = $row;
+		}
+		
+		//sort items
+		$items2 = array();
+		foreach($ids as $id) {
+			$items2[] = $items[$id];
+		}
+		
+		//category names
+		$categories = array(
+			1 => 'Bezirke',
+			2 => 'Ortsteile',
+			3 => 'PLZ',
+			4 => 'Straßen in Ortsteil',
+			5 => 'Straßen in PLZ',
+			6 => 'Adressen',
+		);
+		
+		//get item from search table
+		foreach($items2 as $row) {
+			//make term
+			$term = $row['term'];
+			$pos = strpos($term, ',');
+			if($pos === false) {
+				$pos = strlen($term);
+			}
+			$term = '<b>' . substr($term, 0, $pos) . '</b>' . substr($term, $pos);
+			
+			//make url
+			$url = '?';
+			switch($row['type']) {
+				case 1:
+					$url .= 'bid=' . $row['objid'];
+					break;
+				case 2:
+					$url .= 'oid=' . $row['objid'];
+					break;
+				case 3:
+					$url .= 'pid=' . $row['objid'];
+					break;
+				case 4:
+					$url .= 'oid=' . $row['objid2'] . '&sid=' . $row['objid'];
+					break;
+				case 5:
+					$url .= 'pid=' . $row['objid2'] . '&sid=' . $row['objid'];
+					break;
+				case 6:
+					$url .= 'nid=' . $row['objid'];
+					break;
+			}
+			
+			//make result
+			$result = array(
+				'label' => $term,
+				'url' => $url,
+				'category' => $categories[$row['type']],
+			);
+			$results[] = $result;
+		}
+		return $results;
 	}
 	
 	//get total

@@ -1,10 +1,7 @@
-* {
-	font-family: verdana, arial;
-}
-
 body {
 	background-color: #AAA;
 	margin: 0;
+	font-family: verdana, arial;
 }
 
 .bg-red {
@@ -25,6 +22,11 @@ div.container {
 	background-color: #EEE; 
 	padding: 15px 70px;
 	box-shadow: inset 0 0 10px #CCC;
+}
+
+div.search {
+	text-align: center;
+	margin-top: 5px;
 }
 
 div.footer {
@@ -85,6 +87,11 @@ div.status {
 	text-align: center;
 }
 
+input.search {
+	width: 300px;
+	font-size: 1em;
+}
+
 h1,h2 {
 	text-align: center;
 	text-transform: uppercase;
@@ -127,4 +134,28 @@ table.address {
 
 td.progress {
 	width: 300px;
+}
+
+.ui-autocomplete li {
+    font-size: 0.8em;
+    background-color: #DDD;
+}
+
+.ui-autocomplete .ui-state-focus {
+	margin: 0;
+    color: #FFF;
+    background: #666;
+    border: none;
+    font-weight: normal;
+}
+
+li.ui-autocomplete-category {
+	margin: 0;
+    color: #FFF;
+    background-color: #888;
+    border: none;
+    font-weight: normal;
+    font-size: 0.6em;
+    text-transform: uppercase;
+    padding-left: 10px;
 }
