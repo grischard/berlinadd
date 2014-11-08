@@ -12,13 +12,8 @@ $model = new Model();
 	<head>
 		<title>%TITLE%</title>
 		<link rel="shortcut icon" href="favicon.ico?1" type="image/x-icon" />
-		<link rel="stylesheet" href="thirdparty/leaflet-0.7.3/leaflet.css" />
-		<link rel="stylesheet" href="thirdparty/jquery-ui-1.11.2/jquery-ui.min.css" />
-		<link rel="stylesheet" href="styles.css" />
-		<script src="thirdparty/leaflet-0.7.3/leaflet.js"></script>
-		<script src="thirdparty/jquery-1.11.1.min.js"></script>
-		<script src="thirdparty/jquery-ui-1.11.2/jquery-ui.min.js"></script>
-		<script src="script.js"></script>
+		<link rel="stylesheet" href="all.min.css" />
+		<script src="all.min.js"></script>
 	</head>
 	<body>
 		<div class="container">
