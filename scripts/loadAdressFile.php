@@ -51,6 +51,7 @@ CREATE TABLE numbers (
 	warning_street VARCHAR(255),
 	warning_city VARCHAR(255),
 	warning_mentioned VARCHAR(255),
+	warning_suburb VARCHAR(255),
 	warning_interpolated TINYINT DEFAULT 0,
 	in_osm TINYINT DEFAULT 0,
 	INDEX(sid),

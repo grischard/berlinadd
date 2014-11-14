@@ -372,10 +372,14 @@ class Model {
 	//get numbers for oid and sid
 	function getNumbersForOidAndSid($oid, $sid) {
 		//get numbers
-		$sql = 'SELECT nid, number, in_osm, warning_country, warning_city, warning_street, warning_interpolated, warning_mentioned
-				FROM numbers
-				WHERE oid = ' . $oid . '
-				AND sid = ' . $sid;
+		$sql = 'SELECT n.nid, n.number, n.in_osm, n.warning_country, n.warning_city, 
+					n.warning_street, n.warning_interpolated, n.warning_mentioned, 
+					n.warning_suburb, o.ortsteil_name
+				FROM numbers n
+				LEFT JOIN ortsteile o
+					ON o.oid = n.oid
+				WHERE n.oid = ' . $oid . '
+				AND n.sid = ' . $sid;
 		$res = $this->db->query($sql);
 		$numbers = array();
 		while($row = $res->fetch_assoc()) {
@@ -402,10 +406,14 @@ class Model {
 	//get numbers for pid and sid
 	function getNumbersForPidAndSid($pid, $sid) {
 		//get numbers
-		$sql = 'SELECT nid, number, in_osm, warning_country, warning_city, warning_street, warning_interpolated, warning_mentioned
-				FROM numbers
-				WHERE pid = ' . $pid . '
-				AND sid = ' . $sid;
+		$sql = 'SELECT n.nid, n.number, n.in_osm, n.warning_country, n.warning_city, 
+					n.warning_street, n.warning_interpolated, n.warning_mentioned, 
+					n.warning_suburb, o.ortsteil_name
+				FROM numbers n
+				LEFT JOIN ortsteile o
+					ON o.oid = n.oid
+				WHERE n.pid = ' . $pid . '
+				AND n.sid = ' . $sid;
 		$res = $this->db->query($sql);
 		$numbers = array();
 		while($row = $res->fetch_assoc()) {
@@ -477,31 +485,38 @@ class Model {
 
 //make warning
 function makeWarning($row) {
-	$warning = '';
+	$warnings = array();
 	if($row['warning_interpolated'] == 1) {
-		$warning .= 'Interpoliert' . '<br>';
+		$warnings[] = 'Interpoliert';
 	}
 	if(!is_null($row['warning_mentioned'])) {
-		$warning .= 'Erwähnt in \'' . $row['warning_mentioned'] . '\'' . '<br>';
+		$warnings[] = 'Erwähnt in \'' . $row['warning_mentioned'] . '\'';
 	}
 	if(!is_null($row['warning_country'])) {
 		if($row['warning_country'] == '') {
-			$warning .= '\'addr:country\' fehlt' . '<br>';
+			$warnings[] = '\'addr:country\' fehlt';
 		} else {
-			$warning .= '\'addr:country\' ist \'' . htmlspecialchars($row['warning_country']) . '\' statt \'DE\'' . '<br>';
+			$warnings[] = '\'addr:country\' ist \'' . htmlspecialchars($row['warning_country']) . '\' statt \'DE\'';
 		}
 	}
 	if(!is_null($row['warning_city'])) {
 		if($row['warning_city'] == '') {
-			$warning .= '\'addr:city\' fehlt' . '<br>';
+			$warnings[] = '\'addr:city\' fehlt';
 		} else {
-			$warning .= '\'addr:city\' ist \'' . htmlspecialchars($row['warning_city']) . '\' statt \'Berlin\'' . '<br>';
+			$warnings[] = '\'addr:city\' ist \'' . htmlspecialchars($row['warning_city']) . '\' statt \'Berlin\'';
 		}
 	}
 	if(!is_null($row['warning_street'])) {
-		$warning .= '\'addr:street\' ist \'' . htmlspecialchars($row['warning_street']) . '\'' . '<br>';
+		$warnings[] = '\'addr:street\' ist \'' . htmlspecialchars($row['warning_street']) . '\'';
 	}
-	return $warning;
+	if(!is_null($row['warning_suburb'])) {
+		if($row['warning_suburb'] == '') {
+			$warnings[] = '\'addr:suburb\' fehlt';
+		} else {
+			$warnings[] = '\'addr:suburb\' ist \'' . htmlspecialchars($row['warning_suburb']) . '\' statt \'' . htmlspecialchars($row['ortsteil_name']) . '\'';
+		}
+	}
+	return implode('<br>', $warnings);
 }
 
 //street sort callback

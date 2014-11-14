@@ -29,6 +29,7 @@ if (($handle = fopen("osm.csv", "r")) !== FALSE) {
     	$origHousenumber = $row[2];
     	$housenumber = $origHousenumber;
     	$city = $row[3];
+    	$suburb = $row[4];
     	$country = $row[5];
     	
     	//get pid
@@ -63,11 +64,13 @@ if (($handle = fopen("osm.csv", "r")) !== FALSE) {
 			while($row2 = $res->fetch_assoc()) {
 				//get number
 				$sid = $row2['sid'];
-				$sql = 'SELECT nid, in_osm, warning_mentioned
-						FROM numbers
-						WHERE pid = ' . $pid . '
-							AND sid = ' . $sid . '
-							AND number = \'' . $db->real_escape_string($housenumber) . '\'';
+				$sql = 'SELECT n.nid, n.in_osm, n.warning_mentioned, o.ortsteil_name
+						FROM numbers n
+						LEFT JOIN ortsteile o
+							ON o.oid = n.oid
+						WHERE n.pid = ' . $pid . '
+							AND n.sid = ' . $sid . '
+							AND n.number = \'' . $db->real_escape_string($housenumber) . '\'';
 				$res2 = $db->query($sql);
 				if($row3 = $res2->fetch_assoc()) {
 					$nid = $row3['nid'];
@@ -76,6 +79,12 @@ if (($handle = fopen("osm.csv", "r")) !== FALSE) {
 					if($row2['street_name'] != $street) {
 						echo $row2['street_name'] . ' => ' . $street . "\n";
 						insertWarning($nid, 'street', $street);
+					}
+					
+					//suburb differing?
+					if($suburb != $row3['ortsteil_name']) {
+						echo 'Suburb is: ' . $suburb . "\n";
+						insertWarning($nid, 'suburb', $suburb);
 					}
 				
 					//city differing?
@@ -118,7 +127,8 @@ if (($handle = fopen("osm.csv", "r")) !== FALSE) {
 }
 
 //post processing
-$sql = 'SELECT nid, warning_country, warning_street, warning_city, warning_mentioned
+$sql = 'SELECT nid, warning_country, warning_street, warning_city, warning_suburb, 
+			warning_mentioned
 		FROM numbers';
 $res = $db->query($sql);
 while($row = $res->fetch_assoc()) {
@@ -127,6 +137,7 @@ while($row = $res->fetch_assoc()) {
 		|| !is_null($row['warning_street']) 
 		|| !is_null($row['warning_city']) 
 		|| !is_null($row['warning_mentioned'])
+		|| !is_null($row['warning_suburb'])
 	) {
 		$sql = 'UPDATE numbers
 				SET in_osm = 2
