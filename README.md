@@ -13,6 +13,10 @@ Create 'berlinadd' MySQL table
 Set correct user and password in scripts/db.php  
 run `php scripts/loadAdressFile.php`
 
+* Create CSS and JS files
+run `scripts/createCss.sh`  
+run `scripts/createJs.sh`  
+
 * Update from OSM data  
 `npm install protobufjs`  
 run `scripts/update.py`

@@ -3,3 +3,4 @@
 /scripts/data/*
 !/scripts/data/*.csv
 /web/impressum.php
+/web/all.min.*
