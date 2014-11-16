@@ -1,4 +1,6 @@
 <?php
+define('STATUS_NUM', 3);
+
 class Model {
 	private $db;
 	
@@ -123,14 +125,15 @@ class Model {
 		$row = $res->fetch_assoc();
 		$ary['num'] = $row['num'];
 		
-		//get in_osm 1 and 2
-		for($i = 1; $i <= 2; $i++) {
+		//get in_osm
+		$ary['status'] = array();
+		for($i = 1; $i <= STATUS_NUM; $i++) {
 			$sql = 'SELECT COUNT(*) num 
 					FROM numbers
 					WHERE in_osm = ' . $i;
 			$res = $this->db->query($sql);
 			while($row = $res->fetch_assoc()) {
-				$ary['in_osm_' . $i] = $row['num'];
+				$ary['status'][$i] = $row['num'];
 			}
 		}
 		return $ary;
@@ -152,20 +155,19 @@ class Model {
 				'name' => $row['bezirk_name'],
 				'bid' => $row['bid'],
 				'num' => $row['num'],
-				'in_osm_1' => 0,
-				'in_osm_2' => 0
+				'status' => array(),
 			);
 		}
 		
-		//get in_osm 1 and 2
-		for($i = 1; $i <= 2; $i++) {
+		//get in_osm
+		for($i = 1; $i <= STATUS_NUM; $i++) {
 			$sql = 'SELECT bid, COUNT(*) num 
 					FROM numbers n
 					WHERE in_osm = ' . $i . ' 
 					GROUP BY bid';
 			$res = $this->db->query($sql);
 			while($row = $res->fetch_assoc()) {
-				$bezirke[$row['bid']]['in_osm_' . $i] = $row['num'];
+				$bezirke[$row['bid']]['status'][$i] = $row['num'];
 			}
 		}
 		return $bezirke;
@@ -187,20 +189,19 @@ class Model {
 				'name' => $row['postcode'],
 				'pid' => $row['pid'],
 				'num' => $row['num'],
-				'in_osm_1' => 0,
-				'in_osm_2' => 0
+				'status' => array(),
 			);
 		}
 		
-		//get in_osm 1 and 2
-		for($i = 1; $i <= 2; $i++) {
+		//get in_osm
+		for($i = 1; $i <= STATUS_NUM; $i++) {
 			$sql = 'SELECT pid, COUNT(*) num 
 					FROM numbers n
 					WHERE in_osm = ' . $i . ' 
 					GROUP BY pid';
 			$res = $this->db->query($sql);
 			while($row = $res->fetch_assoc()) {
-				$postcodes[$row['pid']]['in_osm_' . $i] = $row['num'];
+				$postcodes[$row['pid']]['status'][$i] = $row['num'];
 			}
 		}
 		return $postcodes;
@@ -223,13 +224,12 @@ class Model {
 				'name' => $row['ortsteil_name'],
 				'oid' => $row['oid'],
 				'num' => $row['num'],
-				'in_osm_1' => 0,
-				'in_osm_2' => 0
+				'status' => array(),
 			);
 		}
 		
-		//get in_osm 1 and 2
-		for($i = 1; $i <= 2; $i++) {
+		//get in_osm
+		for($i = 1; $i <= STATUS_NUM; $i++) {
 			$sql = 'SELECT oid, COUNT(*) num 
 					FROM numbers n
 					WHERE in_osm = ' . $i . ' 
@@ -237,7 +237,7 @@ class Model {
 					GROUP BY oid';
 			$res = $this->db->query($sql);
 			while($row = $res->fetch_assoc()) {
-				$ortsteile[$row['oid']]['in_osm_' . $i] = $row['num'];
+				$ortsteile[$row['oid']]['status'][$i] = $row['num'];
 			}
 		}
 		return $ortsteile;
@@ -273,13 +273,12 @@ class Model {
 				'name' => $row['street_name'],
 				'sid' => $row['sid'],
 				'num' => $row['num'],
-				'in_osm_1' => 0,
-				'in_osm_2' => 0
+				'status' => array(),
 			);
 		}
 		
-		//get in_osm 1 and 2
-		for($i = 1; $i <= 2; $i++) {
+		//get in_osm
+		for($i = 1; $i <= STATUS_NUM; $i++) {
 			$sql = 'SELECT sid, COUNT(*) num
 					FROM numbers
 					WHERE oid = ' . $oid . '
@@ -287,7 +286,7 @@ class Model {
 					GROUP BY sid';
 			$res = $this->db->query($sql);
 			while($row = $res->fetch_assoc()) {
-				$streets[$row['sid']]['in_osm_' . $i] = $row['num'];
+				$streets[$row['sid']]['status'][$i] = $row['num'];
 			}
 		}
 		return $streets;
@@ -323,13 +322,12 @@ class Model {
 				'name' => $row['street_name'],
 				'sid' => $row['sid'],
 				'num' => $row['num'],
-				'in_osm_1' => 0,
-				'in_osm_2' => 0
+				'status' => array(),
 			);
 		}
 		
-		//get in_osm 1 and 2
-		for($i = 1; $i <= 2; $i++) {
+		//get in_osm
+		for($i = 1; $i <= STATUS_NUM; $i++) {
 			$sql = 'SELECT sid, COUNT(*) num
 					FROM numbers
 					WHERE pid = ' . $pid . '
@@ -337,7 +335,7 @@ class Model {
 					GROUP BY sid';
 			$res = $this->db->query($sql);
 			while($row = $res->fetch_assoc()) {
-				$streets[$row['sid']]['in_osm_' . $i] = $row['num'];
+				$streets[$row['sid']]['status'][$i] = $row['num'];
 			}
 		}
 		return $streets;
@@ -392,9 +390,7 @@ class Model {
 			);
 			
 			//add warnings
-			if($row['in_osm'] == 2) {
-				$number['status']['warning'] = makeWarning($row);
-			}
+			$number['status']['warning'] = makeWarning($row);
 			$numbers[] = $number;
 		}
 		
@@ -426,9 +422,7 @@ class Model {
 			);
 			
 			//add warnings
-			if($row['in_osm'] == 2) {
-				$number['status']['warning'] = makeWarning($row);
-			}
+			$number['status']['warning'] = makeWarning($row);
 			$numbers[] = $number;
 		}
 		

@@ -1,4 +1,17 @@
 $(document).ready(function(){
+	pagedidload();
+	
+	$("#toggleKey").click(function() {
+		$("#key").toggle();
+		var newText;
+		if($("#key").is(":visible")) {
+			newText = "Legende ausblenden";
+		} else {
+			newText = "Legende einblenden";
+		}
+		$("#toggleKey").text(newText);
+	});
+
     $.widget("custom.catcomplete", $.ui.autocomplete, {
 		_create: function() {
 			this._super();

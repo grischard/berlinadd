@@ -17,6 +17,7 @@ $sql = 'UPDATE numbers
 			warning_street = NULL,
 			warning_city = NULL,
 			warning_mentioned = NULL,
+			warning_suburb = NULL,
 			warning_interpolated = 0,
 			in_osm = 0';
 $db->query($sql);
@@ -126,7 +127,10 @@ if (($handle = fopen("osm.csv", "r")) !== FALSE) {
     fclose($handle);
 }
 
-//post processing
+//post processing, set in_osm
+// in_osm=1 : address complete and correct
+// in_osm=2 : address incomplete or inaccurate
+// in_osm=3 : address contains incorrect information
 $sql = 'SELECT nid, warning_country, warning_street, warning_city, warning_suburb, 
 			warning_mentioned
 		FROM numbers';
@@ -139,8 +143,20 @@ while($row = $res->fetch_assoc()) {
 		|| !is_null($row['warning_mentioned'])
 		|| !is_null($row['warning_suburb'])
 	) {
+		//which in_osm value
+		$in_osm = 2;
+		if(
+			(!is_null($row['warning_country']) && $row['warning_country'] != '') ||
+			!is_null($row['warning_street']) ||
+			(!is_null($row['warning_city']) && $row['warning_city'] != '') ||
+			(!is_null($row['warning_suburb']) && $row['warning_suburb'] != '')
+		) {
+			$in_osm = 3;
+		}
+		
+		//update		
 		$sql = 'UPDATE numbers
-				SET in_osm = 2
+				SET in_osm = ' . $in_osm . '
 				WHERE nid = ' . $row['nid'];
 		$db->query($sql);
 	}

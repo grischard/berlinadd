@@ -148,7 +148,7 @@ if(isset($_GET['nid'])) {
 				<td>
 					<a href="?oid=<?php echo $ortsteil['oid']; ?>"><?php echo $ortsteil['name']; ?></a>
 				</td>
-				<td class="progress"><?php showProgress($ortsteil['in_osm_1'], $ortsteil['in_osm_2'], $ortsteil['num']); ?></td>
+				<td class="progress"><?php showProgress($ortsteil['num'], $ortsteil['status']); ?></td>
 			</tr>
 		<?php
 		}
@@ -174,7 +174,7 @@ if(isset($_GET['nid'])) {
 				<td>
 					<a href="?oid=<?php echo $oid; ?>&sid=<?php echo $street['sid']; ?>"><?php echo $street['name']; ?></a>
 				</td>
-				<td class="progress"><?php showProgress($street['in_osm_1'], $street['in_osm_2'], $street['num']); ?></td>
+				<td class="progress"><?php showProgress($street['num'], $street['status']); ?></td>
 			</tr>
 		<?php
 		}
@@ -200,7 +200,7 @@ if(isset($_GET['nid'])) {
 				<td>
 					<a href="?pid=<?php echo $pid; ?>&sid=<?php echo $street['sid']; ?>"><?php echo $street['name']; ?></a>
 				</td>
-				<td class="progress"><?php showProgress($street['in_osm_1'], $street['in_osm_2'], $street['num']); ?></td>
+				<td class="progress"><?php showProgress($street['num'], $street['status']); ?></td>
 			</tr>
 		<?php
 		}
@@ -215,7 +215,7 @@ if(isset($_GET['nid'])) {
 <?php
 //get total
 $total = $model->getTotal();
-showProgress($total['in_osm_1'], $total['in_osm_2'], $total['num']);
+showProgress($total['num'], $total['status']);
 ?>
 <br>
 
@@ -229,7 +229,7 @@ foreach($bezirke as $bezirk) { ?>
 		<td>
 			<a href="?bid=<?php echo $bezirk['bid']; ?>"><?php echo $bezirk['name']; ?></a>
 		</td>
-		<td class="progress"><?php showProgress($bezirk['in_osm_1'], $bezirk['in_osm_2'], $bezirk['num']); ?></td>
+		<td class="progress"><?php showProgress($bezirk['num'], $bezirk['status']); ?></td>
 	</tr>
 <?php
 }
@@ -247,7 +247,7 @@ foreach($postcodes as $postcode) { ?>
 		<td>
 			<a href="?pid=<?php echo $postcode['pid']; ?>"><?php echo $postcode['name']; ?></a>
 		</td>
-		<td class="progress"><?php showProgress($postcode['in_osm_1'], $postcode['in_osm_2'], $postcode['num']); ?></td>
+		<td class="progress"><?php showProgress($postcode['num'], $postcode['status']); ?></td>
 	</tr>
 <?php
 }

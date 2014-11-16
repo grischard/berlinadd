@@ -10,6 +10,9 @@ function showStatus($status) {
 			$color = 'green';
 			break;
 		case 2:
+			$color = 'lightgreen';
+			break;
+		case 3:
 			$color = 'orange';
 			break;
 	}

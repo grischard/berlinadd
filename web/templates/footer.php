@@ -1,6 +1,45 @@
 		</div>
 		<div class="container">
 			<div class="footer">
+				<a href="javascript:void(0)" id="toggleKey" class="key no-line">Legende einblenden</a><br>
+				<div class="key" id="key">
+					<table>
+						<tr>
+							<td class="key-color bg-green">
+							</td>
+							<td class="key-text">
+								Vollständige und korrekte Adressen<br>
+								<span class="key-subtext">[addr:housenumber, addr:street, addr:postcode, addr:suburb, addr:city und addr:country sind korrekt gesetzt]</span>
+							</td>
+						</tr>
+						<tr>
+							<td class="key-color bg-lightgreen">
+							</td>
+							<td class="key-text">
+								Unvollständige oder ungenaue Adressen<br>
+								<span class="key-subtext">[addr:suburb, addr:city oder addr:country fehlen / Hausnummer ist interpoliert oder nur erwähnt]</span>
+							</td>
+						</tr>
+						<tr>
+							<td class="key-color bg-orange">
+							</td>
+							<td class="key-text">
+								Fehlerhafte Adressen<br>
+								<span class="key-subtext">[addr:suburb, addr:city oder addr:country sind vorhanden aber falsch / Straßenname ist falsch geschrieben]</span>
+							</td>
+						</tr>
+						<tr>
+							<td class="key-color bg-red">
+								<div class="key-color-half bg-gray"></div>
+							</td>
+							<td class="key-text">
+								Fehlende Adressen<br>
+								<span class="key-subtext">[Es sind keine passenden addr:housenumber, addr:street und addr:postcode vorhanden]</span>
+							</td>
+						</tr>
+					</table>
+				</div>
+				
 				BerlinAdd - Adressbestand der offiziellen Geodaten in OpenStreetMap<br>
 				Aktualisiert: 
 					<?php echo date('d.m.Y H:i', $model->lastUpdate()); ?><br>
@@ -14,12 +53,7 @@
 		<br><br>
 	</body>
 </html>
-<script src="all.min.js"></script>
-<script>
-$(document).ready(function() {
-	pagedidload();
-});
-</script>
+<script src="all.min.js?1"></script>
 
 <?php
 //show output

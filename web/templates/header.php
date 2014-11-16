@@ -12,7 +12,7 @@ $model = new Model();
 	<head>
 		<title>%TITLE%</title>
 		<link rel="shortcut icon" href="favicon.ico?1" type="image/x-icon" />
-		<link rel="stylesheet" href="all.min.css" />
+		<link rel="stylesheet" href="all.min.css?1" />
 		<script>var pagedidload = function(){}</script>
 	</head>
 	<body>
